@@ -7,17 +7,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/rakyll/statik/fs"
-	_ "github.com/utilitywarehouse/swaggerui/statik"
+	"github.com/utilitywarehouse/swaggerui/static"
 )
 
 func SwaggerUI() http.Handler {
-	assetFs, err := fs.New()
-	if err != nil {
-		panic(fmt.Errorf("failed to create swagger-ui static assets: %w", err).Error())
-	}
-
-	return http.FileServer(assetFs)
+	return http.FileServer(http.FS(static.Assets))
 }
 
 func SwaggerFile(swaggerLocations ...string) http.Handler {
