@@ -12,7 +12,14 @@ import (
 )
 
 func SwaggerUI() http.Handler {
-	return http.FileServer(http.FS(static.Assets))
+	mux := http.NewServeMux()
+	handler, err := initialiser.ConfigLoader("swagger.json")
+	if err != nil {
+		panic("failed to create FS for swaggerui")
+	}
+	mux.Handle("/swagger-initializer.js", handler)
+	mux.Handle("/", http.FileServer(http.FS(static.Assets)))
+	return mux
 }
 
 func SwaggerUIWithSwaggerLocation(location string) (http.Handler, error) {
