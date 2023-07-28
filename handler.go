@@ -2,6 +2,7 @@ package swaggerui
 
 import (
 	"fmt"
+	"github.com/utilitywarehouse/swaggerui/initialiser"
 	"log"
 	"net/http"
 	"os"
@@ -12,6 +13,17 @@ import (
 
 func SwaggerUI() http.Handler {
 	return http.FileServer(http.FS(static.Assets))
+}
+
+func SwaggerUIWithSwaggerLocation(location string) (http.Handler, error) {
+	mux := http.NewServeMux()
+	handler, err := initialiser.ConfigLoader(location)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create FS: %w", err)
+	}
+	mux.Handle("/swagger-initializer.js", handler)
+	mux.Handle("/", http.FileServer(http.FS(static.Assets)))
+	return mux, nil
 }
 
 func SwaggerFile(swaggerLocations ...string) http.Handler {
