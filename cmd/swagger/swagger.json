@@ -1,0 +1,2061 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "github.com/utilitywarehouse/telecom-fixed-line/protos/order-management.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Service"
+    }
+  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/v2/assignees": {
+      "get": {
+        "description": "Retrieves all valid assignees from the specified google groups",
+        "operationId": "Service_GetAssignees",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ordermanagementGetAssigneesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "tags": ["Service"]
+      }
+    },
+    "/v2/cancel/{id}": {
+      "get": {
+        "description": "cancels a retail order",
+        "operationId": "Service_CancelRetailOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "reason",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "requestedBy",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["Service"]
+      }
+    },
+    "/v2/filters": {
+      "get": {
+        "description": "Retrieves all filters for use with GetOrders",
+        "operationId": "Service_GetFilters",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ordermanagementGetFiltersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "tags": ["Service"]
+      }
+    },
+    "/v2/orderServices/{serviceId}": {
+      "get": {
+        "description": "Gets Order Service based on id",
+        "operationId": "Service_GetOrderService",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ordermanagementOrderServiceV2"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serviceId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Service"]
+      }
+    },
+    "/v2/orders": {
+      "get": {
+        "description": "retrieves a list of orders and their associated services",
+        "operationId": "Service_GetOrdersV2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ordermanagementOrdersV2"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pagination.currentPage",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pagination.itemsPerPage",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pagination.totalItems",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "filter.search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.orderStatus",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "UNKNOWN",
+                "CANCELLED",
+                "EXCEPTION",
+                "PENDING",
+                "PROGRESSING",
+                "COMPLETED",
+                "PENDING_CANCELLED"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.provisioningStatus",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "UNKNOWN",
+                "PLACED",
+                "ACCEPTED",
+                "SCHEDULED",
+                "IMPLEMENTATION_DELAY",
+                "PLANNING_DELAY",
+                "COMPLETED",
+                "CANCELLED",
+                "REJECTED",
+                "REQUESTED",
+                "PENDING_CANCELLED"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.switchingStatus",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "UNKNOWN",
+                "CANCELLED",
+                "EXCEPTION",
+                "AWAITING_ACTION",
+                "PENDING",
+                "PROGRESSING",
+                "COMPLETED"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.networkType",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "NETWORK_TYPE_UNKNOWN",
+                "NETWORK_TYPE_OPENREACH",
+                "NETWORK_TYPE_CITYFIBRE"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.serviceType",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "TYPE_UNKNOWN",
+                "FULL_FIBRE_100",
+                "FULL_FIBRE_300",
+                "FULL_FIBRE_500",
+                "RESIDENTIAL_LINE_RENTAL",
+                "FIBRE_40",
+                "FIBRE_80",
+                "ULTRA",
+                "ULTRA_PLUS",
+                "STANDARD_BROADBAND",
+                "FULL_FIBRE_900"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.assignee",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.exceptionType",
+            "description": " - SWITCHING_EXCEPTION_TOTSCO: TODO: Add all switching exceptions here\ninstead of generic switching one.\n - SERVICE_EXCEPTION_STILL_LIVE_AFTER_SWITCH: raised against ServiceIDs",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "EXCEPTION_TYPE_UNKNOWN",
+                "ORDER_REJECTED",
+                "STATE_TIMEOUT",
+                "LIVE_DATE_PASSED",
+                "ORDER_CANCELLED",
+                "ORDER_DELAYED",
+                "UNACTIONED_APPOINTMENT_REQUEST",
+                "UNACTIONED_CANCELLATION_REQUEST",
+                "WHOLESALE_ORDER_CANCELLATION_FAILED",
+                "SWITCHING_EXCEPTION_TOTSCO",
+                "SWITCHING_EXCEPTION_UNDELIVERABLE",
+                "SWITCHING_EXCEPTION_ORDER",
+                "SWITCHING_EXCEPTION_UPDATE",
+                "SWITCHING_EXCEPTION_TRIGGER",
+                "SWITCHING_EXCEPTION_CANCELLATION",
+                "SWITCHING_EXCEPTION_TRIGGER_DATE_IN_PAST",
+                "SWITCHING_EXCEPTION_MISSING_SOR",
+                "SWITCHING_EXCEPTION_SOR_EXPIRY_IMMINENT",
+                "SWITCHING_EXCEPTION_UNCONFIRMED_SWITCH_ORDER_TRIGGER",
+                "SWITCHING_EXCEPTION_UNCONFIRMED_SWITCH_ORDER_REQUEST",
+                "SWITCHING_EXCEPTION_UNCONFIRMED_SWITCH_ORDER_CANCELLATION",
+                "SWITCHING_EXCEPTION_UNCONFIRMED_SWITCH_ORDER_UPDATE",
+                "SERVICE_EXCEPTION_STILL_LIVE_AFTER_SWITCH"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.exceptionStatus",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "EXCEPTION_STATUS_UNKNOWN",
+                "EXCEPTION_OPEN",
+                "EXCEPTION_CLOSED"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.hideSnoozed",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": ["ASC", "DESC"],
+            "default": "ASC"
+          },
+          {
+            "name": "sortField",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": ["CREATED", "UPDATED"],
+            "default": "CREATED"
+          }
+        ],
+        "tags": ["Service"]
+      }
+    },
+    "/v2/orders/assign": {
+      "post": {
+        "description": "Assigns the assignee to the given retail orders",
+        "operationId": "Service_AssignRetailOrders",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ordermanagementOrdersV2"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ordermanagementAssignRetailOrdersRequest"
+            }
+          }
+        ],
+        "tags": ["Service"]
+      }
+    },
+    "/v2/orders/exception/{code}": {
+      "get": {
+        "description": "retrieves exception resolution copy",
+        "operationId": "Service_GetExceptionResolution",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ordermanagementExceptionResolution"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Service"]
+      }
+    },
+    "/v2/orders/generate-report": {
+      "get": {
+        "description": "Returns a status report for retail orders",
+        "operationId": "Service_GetRetailOrderReport",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ordermanagementRetailOrderReport"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "filters.search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filters.orderStatus",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "UNKNOWN",
+                "CANCELLED",
+                "EXCEPTION",
+                "PENDING",
+                "PROGRESSING",
+                "COMPLETED",
+                "PENDING_CANCELLED"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filters.provisioningStatus",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "UNKNOWN",
+                "PLACED",
+                "ACCEPTED",
+                "SCHEDULED",
+                "IMPLEMENTATION_DELAY",
+                "PLANNING_DELAY",
+                "COMPLETED",
+                "CANCELLED",
+                "REJECTED",
+                "REQUESTED",
+                "PENDING_CANCELLED"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filters.switchingStatus",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "UNKNOWN",
+                "CANCELLED",
+                "EXCEPTION",
+                "AWAITING_ACTION",
+                "PENDING",
+                "PROGRESSING",
+                "COMPLETED"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filters.networkType",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "NETWORK_TYPE_UNKNOWN",
+                "NETWORK_TYPE_OPENREACH",
+                "NETWORK_TYPE_CITYFIBRE"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filters.serviceType",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "TYPE_UNKNOWN",
+                "FULL_FIBRE_100",
+                "FULL_FIBRE_300",
+                "FULL_FIBRE_500",
+                "RESIDENTIAL_LINE_RENTAL",
+                "FIBRE_40",
+                "FIBRE_80",
+                "ULTRA",
+                "ULTRA_PLUS",
+                "STANDARD_BROADBAND",
+                "FULL_FIBRE_900"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filters.assignee",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filters.exceptionType",
+            "description": " - SWITCHING_EXCEPTION_TOTSCO: TODO: Add all switching exceptions here\ninstead of generic switching one.\n - SERVICE_EXCEPTION_STILL_LIVE_AFTER_SWITCH: raised against ServiceIDs",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "EXCEPTION_TYPE_UNKNOWN",
+                "ORDER_REJECTED",
+                "STATE_TIMEOUT",
+                "LIVE_DATE_PASSED",
+                "ORDER_CANCELLED",
+                "ORDER_DELAYED",
+                "UNACTIONED_APPOINTMENT_REQUEST",
+                "UNACTIONED_CANCELLATION_REQUEST",
+                "WHOLESALE_ORDER_CANCELLATION_FAILED",
+                "SWITCHING_EXCEPTION_TOTSCO",
+                "SWITCHING_EXCEPTION_UNDELIVERABLE",
+                "SWITCHING_EXCEPTION_ORDER",
+                "SWITCHING_EXCEPTION_UPDATE",
+                "SWITCHING_EXCEPTION_TRIGGER",
+                "SWITCHING_EXCEPTION_CANCELLATION",
+                "SWITCHING_EXCEPTION_TRIGGER_DATE_IN_PAST",
+                "SWITCHING_EXCEPTION_MISSING_SOR",
+                "SWITCHING_EXCEPTION_SOR_EXPIRY_IMMINENT",
+                "SWITCHING_EXCEPTION_UNCONFIRMED_SWITCH_ORDER_TRIGGER",
+                "SWITCHING_EXCEPTION_UNCONFIRMED_SWITCH_ORDER_REQUEST",
+                "SWITCHING_EXCEPTION_UNCONFIRMED_SWITCH_ORDER_CANCELLATION",
+                "SWITCHING_EXCEPTION_UNCONFIRMED_SWITCH_ORDER_UPDATE",
+                "SERVICE_EXCEPTION_STILL_LIVE_AFTER_SWITCH"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filters.exceptionStatus",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "EXCEPTION_STATUS_UNKNOWN",
+                "EXCEPTION_OPEN",
+                "EXCEPTION_CLOSED"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filters.hideSnoozed",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "tags": ["Service"]
+      }
+    },
+    "/v2/orders/release": {
+      "post": {
+        "description": "releases an order in a failed match scenario",
+        "operationId": "Service_ReleaseServiceOrderAsNonSwitchingV2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ordermanagementOrderV2"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "retailOrderId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "serviceId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reason",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "requestedBy",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["Service"]
+      }
+    },
+    "/v2/orders/submitSwitchOrder": {
+      "post": {
+        "description": "submits an switch order reference to order, if all wholesale legs have SOR associated",
+        "operationId": "Service_SubmitSwitchOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ordermanagementSubmitSwitchOrderRequest"
+            }
+          }
+        ],
+        "tags": ["Service"]
+      }
+    },
+    "/v2/orders/{orderId}/snooze": {
+      "post": {
+        "description": "snoozes a retail order",
+        "operationId": "Service_SnoozeRetailOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ordermanagementOrdersV2"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "snoozeUntil",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "requestedBy",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "state.pagination.currentPage",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "state.pagination.itemsPerPage",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "state.pagination.totalItems",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "state.filter.search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "state.filter.orderStatus",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "UNKNOWN",
+                "CANCELLED",
+                "EXCEPTION",
+                "PENDING",
+                "PROGRESSING",
+                "COMPLETED",
+                "PENDING_CANCELLED"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "state.filter.provisioningStatus",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "UNKNOWN",
+                "PLACED",
+                "ACCEPTED",
+                "SCHEDULED",
+                "IMPLEMENTATION_DELAY",
+                "PLANNING_DELAY",
+                "COMPLETED",
+                "CANCELLED",
+                "REJECTED",
+                "REQUESTED",
+                "PENDING_CANCELLED"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "state.filter.switchingStatus",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "UNKNOWN",
+                "CANCELLED",
+                "EXCEPTION",
+                "AWAITING_ACTION",
+                "PENDING",
+                "PROGRESSING",
+                "COMPLETED"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "state.filter.networkType",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "NETWORK_TYPE_UNKNOWN",
+                "NETWORK_TYPE_OPENREACH",
+                "NETWORK_TYPE_CITYFIBRE"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "state.filter.serviceType",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "TYPE_UNKNOWN",
+                "FULL_FIBRE_100",
+                "FULL_FIBRE_300",
+                "FULL_FIBRE_500",
+                "RESIDENTIAL_LINE_RENTAL",
+                "FIBRE_40",
+                "FIBRE_80",
+                "ULTRA",
+                "ULTRA_PLUS",
+                "STANDARD_BROADBAND",
+                "FULL_FIBRE_900"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "state.filter.assignee",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "state.filter.exceptionType",
+            "description": " - SWITCHING_EXCEPTION_TOTSCO: TODO: Add all switching exceptions here\ninstead of generic switching one.\n - SERVICE_EXCEPTION_STILL_LIVE_AFTER_SWITCH: raised against ServiceIDs",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "EXCEPTION_TYPE_UNKNOWN",
+                "ORDER_REJECTED",
+                "STATE_TIMEOUT",
+                "LIVE_DATE_PASSED",
+                "ORDER_CANCELLED",
+                "ORDER_DELAYED",
+                "UNACTIONED_APPOINTMENT_REQUEST",
+                "UNACTIONED_CANCELLATION_REQUEST",
+                "WHOLESALE_ORDER_CANCELLATION_FAILED",
+                "SWITCHING_EXCEPTION_TOTSCO",
+                "SWITCHING_EXCEPTION_UNDELIVERABLE",
+                "SWITCHING_EXCEPTION_ORDER",
+                "SWITCHING_EXCEPTION_UPDATE",
+                "SWITCHING_EXCEPTION_TRIGGER",
+                "SWITCHING_EXCEPTION_CANCELLATION",
+                "SWITCHING_EXCEPTION_TRIGGER_DATE_IN_PAST",
+                "SWITCHING_EXCEPTION_MISSING_SOR",
+                "SWITCHING_EXCEPTION_SOR_EXPIRY_IMMINENT",
+                "SWITCHING_EXCEPTION_UNCONFIRMED_SWITCH_ORDER_TRIGGER",
+                "SWITCHING_EXCEPTION_UNCONFIRMED_SWITCH_ORDER_REQUEST",
+                "SWITCHING_EXCEPTION_UNCONFIRMED_SWITCH_ORDER_CANCELLATION",
+                "SWITCHING_EXCEPTION_UNCONFIRMED_SWITCH_ORDER_UPDATE",
+                "SERVICE_EXCEPTION_STILL_LIVE_AFTER_SWITCH"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "state.filter.exceptionStatus",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "EXCEPTION_STATUS_UNKNOWN",
+                "EXCEPTION_OPEN",
+                "EXCEPTION_CLOSED"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "state.filter.hideSnoozed",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "state.sort",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": ["ASC", "DESC"],
+            "default": "ASC"
+          },
+          {
+            "name": "state.sortField",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": ["CREATED", "UPDATED"],
+            "default": "CREATED"
+          }
+        ],
+        "tags": ["Service"]
+      }
+    },
+    "/v2/wholesale/{orderId}/replace": {
+      "post": {
+        "description": "Replaces a wholesale order using the new contact details",
+        "operationId": "Service_ReplaceWholesaleOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contactDetailChanges.name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "contactDetailChanges.email",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "contactDetailChanges.phone",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["Service"]
+      }
+    },
+    "/v2/wholesale/{wholesaleOrderId}/cancel": {
+      "get": {
+        "description": "attempts to cancel a wholesale order by emitting a ServiceOrderCancellationRequested",
+        "operationId": "Service_CancelWholesaleOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "wholesaleOrderId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Service"]
+      }
+    },
+    "/v2/wholesale/{wholesaleOrderId}/force-cancel": {
+      "post": {
+        "description": "unsafely cancels a wholesale order without any pending steps; only to be used in very specific circumstances when a wholesale order is stuck",
+        "operationId": "Service_ForceCancelWholesaleOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "wholesaleOrderId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Service"]
+      }
+    }
+  },
+  "definitions": {
+    "OrderServiceV2Classification": {
+      "type": "string",
+      "enum": ["CLASSIFICATION_UNKNOWN", "BROADBAND", "HOMEPHONE"],
+      "default": "CLASSIFICATION_UNKNOWN"
+    },
+    "OrderServiceV2TechnologyCategory": {
+      "type": "string",
+      "enum": [
+        "TECHNOLOGY_UNKNOWN",
+        "TECHNOLOGY_FTTC",
+        "TECHNOLOGY_FTTP",
+        "TECHNOLOGY_SOGEA",
+        "TECHNOLOGY_STANDARD",
+        "TECHNOLOGY_HOMEPHONE"
+      ],
+      "default": "TECHNOLOGY_UNKNOWN"
+    },
+    "WholesaleOrderState": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "PLACED",
+        "ACCEPTED",
+        "SCHEDULED",
+        "IMPLEMENTATION_DELAY",
+        "PLANNING_DELAY",
+        "COMPLETED",
+        "CANCELLED",
+        "REJECTED",
+        "REQUESTED",
+        "PENDING_CANCELLED"
+      ],
+      "default": "UNKNOWN"
+    },
+    "exceptionsOrderExceptionState": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "entityId": {
+          "type": "string",
+          "title": "this will either be a Switch order reference or a"
+        },
+        "status": {
+          "$ref": "#/definitions/exceptionsOrderExceptionStateStatus",
+          "title": "Wholesale order Id"
+        },
+        "type": {
+          "$ref": "#/definitions/exceptionsOrderExceptionStateType"
+        },
+        "description": {
+          "type": "string",
+          "title": "Human-readable exception message"
+        },
+        "code": {
+          "type": "string",
+          "title": "Specific error code associated with exception"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastUpdatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "exceptionsOrderExceptionStateStatus": {
+      "type": "string",
+      "enum": [
+        "EXCEPTION_STATUS_UNKNOWN",
+        "EXCEPTION_OPEN",
+        "EXCEPTION_CLOSED"
+      ],
+      "default": "EXCEPTION_STATUS_UNKNOWN"
+    },
+    "exceptionsOrderExceptionStateType": {
+      "type": "string",
+      "enum": [
+        "EXCEPTION_TYPE_UNKNOWN",
+        "ORDER_REJECTED",
+        "STATE_TIMEOUT",
+        "LIVE_DATE_PASSED",
+        "ORDER_CANCELLED",
+        "ORDER_DELAYED",
+        "UNACTIONED_APPOINTMENT_REQUEST",
+        "UNACTIONED_CANCELLATION_REQUEST",
+        "WHOLESALE_ORDER_CANCELLATION_FAILED",
+        "SWITCHING_EXCEPTION_TOTSCO",
+        "SWITCHING_EXCEPTION_UNDELIVERABLE",
+        "SWITCHING_EXCEPTION_ORDER",
+        "SWITCHING_EXCEPTION_UPDATE",
+        "SWITCHING_EXCEPTION_TRIGGER",
+        "SWITCHING_EXCEPTION_CANCELLATION",
+        "SWITCHING_EXCEPTION_TRIGGER_DATE_IN_PAST",
+        "SWITCHING_EXCEPTION_MISSING_SOR",
+        "SWITCHING_EXCEPTION_SOR_EXPIRY_IMMINENT",
+        "SWITCHING_EXCEPTION_UNCONFIRMED_SWITCH_ORDER_TRIGGER",
+        "SWITCHING_EXCEPTION_UNCONFIRMED_SWITCH_ORDER_REQUEST",
+        "SWITCHING_EXCEPTION_UNCONFIRMED_SWITCH_ORDER_CANCELLATION",
+        "SWITCHING_EXCEPTION_UNCONFIRMED_SWITCH_ORDER_UPDATE",
+        "SERVICE_EXCEPTION_STILL_LIVE_AFTER_SWITCH"
+      ],
+      "default": "EXCEPTION_TYPE_UNKNOWN",
+      "title": "- SWITCHING_EXCEPTION_TOTSCO: TODO: Add all switching exceptions here\ninstead of generic switching one.\n - SERVICE_EXCEPTION_STILL_LIVE_AFTER_SWITCH: raised against ServiceIDs"
+    },
+    "filesFile": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "contentType": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "fixed_line_entitiesAddress": {
+      "type": "object",
+      "properties": {
+        "uprn": {
+          "type": "string"
+        },
+        "subBuilding": {
+          "type": "string"
+        },
+        "buildingName": {
+          "type": "string"
+        },
+        "buildingNumber": {
+          "type": "string"
+        },
+        "dependentThoroughfare": {
+          "type": "string"
+        },
+        "thoroughfare": {
+          "type": "string"
+        },
+        "doubleDependentLocality": {
+          "type": "string"
+        },
+        "dependentLocality": {
+          "type": "string"
+        },
+        "locality": {
+          "type": "string"
+        },
+        "county": {
+          "type": "string"
+        },
+        "postcode": {
+          "type": "string"
+        },
+        "town": {
+          "type": "string"
+        },
+        "department": {
+          "type": "string"
+        },
+        "organisationName": {
+          "type": "string"
+        },
+        "poBox": {
+          "type": "string"
+        },
+        "recordSource": {
+          "$ref": "#/definitions/fixed_line_entitiesAddressSource"
+        },
+        "alk": {
+          "type": "string",
+          "title": "Address Lookup Key"
+        },
+        "cssDistrictCode": {
+          "type": "string",
+          "title": "OpenReach Customer Service System DistrictCode"
+        }
+      }
+    },
+    "fixed_line_entitiesAddressSource": {
+      "type": "string",
+      "enum": [
+        "AddressSource_UNKNOWN",
+        "AddressSource_ROYAL_MAIL",
+        "AddressSource_OPENREACH",
+        "AddressSource_USER_DEFINED"
+      ],
+      "default": "AddressSource_UNKNOWN",
+      "description": "OpenReach (Gold) addresses are preferred over Royal Mail (Silver)\nUser Defined addresses map to Bronze addresses",
+      "title": "Mapped from the address qualifier field from address matcher\n\u003e The qualifier which indicates where the address was found. Possible\n  values are Gold (held on OpenReach) or Silver (held on PAF)"
+    },
+    "fixed_line_entitiesContactDetails": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      }
+    },
+    "fixed_line_entitiesIndustryReference": {
+      "type": "object",
+      "properties": {
+        "orderRef": {
+          "type": "string"
+        },
+        "networkRef": {
+          "type": "string"
+        },
+        "serviceId": {
+          "type": "string",
+          "title": "The OGEA industry service ID"
+        },
+        "accessCasr": {
+          "type": "string"
+        },
+        "lorn": {
+          "type": "string",
+          "title": "linked order reference number - for fttc orders"
+        },
+        "apiRef": {
+          "type": "string"
+        },
+        "assetRef": {
+          "type": "string",
+          "title": "Required for product ammendments (speed changes etc)"
+        }
+      }
+    },
+    "fixed_line_entitiesNetworkType": {
+      "type": "string",
+      "enum": [
+        "NETWORK_TYPE_UNKNOWN",
+        "NETWORK_TYPE_OPENREACH",
+        "NETWORK_TYPE_CITYFIBRE"
+      ],
+      "default": "NETWORK_TYPE_UNKNOWN",
+      "title": "NetworkType describes the type of network the service is being provisioned\nwith"
+    },
+    "fixed_line_entitiesPagination": {
+      "type": "object",
+      "properties": {
+        "currentPage": {
+          "type": "string",
+          "format": "int64"
+        },
+        "itemsPerPage": {
+          "type": "string",
+          "format": "int64"
+        },
+        "totalItems": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "fixed_line_entitiesSortDirection": {
+      "type": "string",
+      "enum": ["ASC", "DESC"],
+      "default": "ASC"
+    },
+    "fixed_line_entitiesSortField": {
+      "type": "string",
+      "enum": ["CREATED", "UPDATED"],
+      "default": "CREATED"
+    },
+    "fixed_line_eventsAppointmentClassification": {
+      "type": "string",
+      "enum": [
+        "BROADBAND_APPOINTMENT_CLASSIFICATION_UNKNOWN",
+        "BROADBAND_APPOINTMENT_CLASSIFICATION_PROVIDE",
+        "BROADBAND_APPOINTMENT_CLASSIFICATION_REPAIR"
+      ],
+      "default": "BROADBAND_APPOINTMENT_CLASSIFICATION_UNKNOWN",
+      "description": "AppointmentClassification describes the context of the engineer appointment."
+    },
+    "fixed_line_eventsAppointmentSlot": {
+      "type": "string",
+      "enum": [
+        "BROADBAND_APPOINTMENT_SLOT_UNKNOWN",
+        "BROADBAND_APPOINTMENT_SLOT_AM",
+        "BROADBAND_APPOINTMENT_SLOT_PM"
+      ],
+      "default": "BROADBAND_APPOINTMENT_SLOT_UNKNOWN",
+      "description": "AppointmentSlot describes the appointment window for an Openreach engineer\nappointment."
+    },
+    "googlerpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "ordermanagementAssignRetailOrdersRequest": {
+      "type": "object",
+      "properties": {
+        "orderIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "assignee": {
+          "type": "string"
+        },
+        "assignedBy": {
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/definitions/ordermanagementGetOrdersRequestV2"
+        }
+      }
+    },
+    "ordermanagementExceptionResolution": {
+      "type": "object",
+      "properties": {
+        "faultText": {
+          "type": "string"
+        },
+        "suggestedAction": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ordermanagementFilterPair": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "ordermanagementGetAssigneesResponse": {
+      "type": "object",
+      "properties": {
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ordermanagementGetFiltersResponse": {
+      "type": "object",
+      "properties": {
+        "orderStatus": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ordermanagementFilterPair"
+          }
+        },
+        "provisioningStatus": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ordermanagementFilterPair"
+          }
+        },
+        "switchingStatus": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ordermanagementFilterPair"
+          }
+        },
+        "networkType": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ordermanagementFilterPair"
+          }
+        },
+        "serviceType": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ordermanagementFilterPair"
+          }
+        },
+        "assignee": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ordermanagementFilterPair"
+          }
+        },
+        "exceptionType": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ordermanagementFilterPair"
+          }
+        },
+        "exceptionStatus": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ordermanagementFilterPair"
+          }
+        }
+      }
+    },
+    "ordermanagementGetOrdersRequestV2": {
+      "type": "object",
+      "properties": {
+        "pagination": {
+          "$ref": "#/definitions/fixed_line_entitiesPagination"
+        },
+        "filter": {
+          "$ref": "#/definitions/ordermanagementOrderFilterV2"
+        },
+        "sort": {
+          "$ref": "#/definitions/fixed_line_entitiesSortDirection"
+        },
+        "sortField": {
+          "$ref": "#/definitions/fixed_line_entitiesSortField"
+        }
+      }
+    },
+    "ordermanagementIndicativeStatus": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "CANCELLED",
+        "EXCEPTION",
+        "PENDING",
+        "PROGRESSING",
+        "COMPLETED",
+        "PENDING_CANCELLED"
+      ],
+      "default": "UNKNOWN",
+      "description": "The overall status of an Order based on the highest-priority\nstatus of one of it's Services. The overall status of a Service\nbased on the highest-prioirty status of the Provisioning state\nand Switching State."
+    },
+    "ordermanagementOrderFilterV2": {
+      "type": "object",
+      "properties": {
+        "search": {
+          "type": "string"
+        },
+        "orderStatus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ordermanagementIndicativeStatus"
+          }
+        },
+        "provisioningStatus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WholesaleOrderState"
+          }
+        },
+        "switchingStatus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/switchingSwitchStateStatus"
+          }
+        },
+        "networkType": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/fixed_line_entitiesNetworkType"
+          }
+        },
+        "serviceType": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ordermanagementOrderServiceV2ServiceType"
+          }
+        },
+        "assignee": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "exceptionType": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/exceptionsOrderExceptionStateType"
+          }
+        },
+        "exceptionStatus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/exceptionsOrderExceptionStateStatus"
+          }
+        },
+        "hideSnoozed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ordermanagementOrderServiceHeader": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/ordermanagementIndicativeStatus"
+        },
+        "classification": {
+          "$ref": "#/definitions/OrderServiceV2Classification"
+        },
+        "serviceType": {
+          "$ref": "#/definitions/ordermanagementOrderServiceV2ServiceType"
+        },
+        "productId": {
+          "type": "string"
+        },
+        "networkType": {
+          "$ref": "#/definitions/fixed_line_entitiesNetworkType"
+        },
+        "technologyCategory": {
+          "$ref": "#/definitions/OrderServiceV2TechnologyCategory"
+        }
+      },
+      "title": "A shorthand representation of an `OrderService`\nwith the main identifying fields"
+    },
+    "ordermanagementOrderServiceV2": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "supplyClassification": {
+          "$ref": "#/definitions/OrderServiceV2Classification"
+        },
+        "serviceType": {
+          "$ref": "#/definitions/ordermanagementOrderServiceV2ServiceType"
+        },
+        "productId": {
+          "type": "string"
+        },
+        "accountNumber": {
+          "type": "string"
+        },
+        "customerName": {
+          "type": "string",
+          "title": "use contact_details.name instead"
+        },
+        "address": {
+          "$ref": "#/definitions/fixed_line_entitiesAddress"
+        },
+        "assignee": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/ordermanagementIndicativeStatus"
+        },
+        "networkType": {
+          "$ref": "#/definitions/fixed_line_entitiesNetworkType"
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ordermanagementProvisioningStateV2"
+        },
+        "switchingState": {
+          "$ref": "#/definitions/ordermanagementSwitchingStateV2"
+        },
+        "technologyCategory": {
+          "$ref": "#/definitions/OrderServiceV2TechnologyCategory"
+        },
+        "serviceReference": {
+          "type": "string"
+        },
+        "contactDetails": {
+          "$ref": "#/definitions/fixed_line_entitiesContactDetails"
+        }
+      }
+    },
+    "ordermanagementOrderServiceV2ServiceType": {
+      "type": "string",
+      "enum": [
+        "TYPE_UNKNOWN",
+        "FULL_FIBRE_100",
+        "FULL_FIBRE_300",
+        "FULL_FIBRE_500",
+        "RESIDENTIAL_LINE_RENTAL",
+        "FIBRE_40",
+        "FIBRE_80",
+        "ULTRA",
+        "ULTRA_PLUS",
+        "STANDARD_BROADBAND",
+        "FULL_FIBRE_900"
+      ],
+      "default": "TYPE_UNKNOWN"
+    },
+    "ordermanagementOrderV2": {
+      "type": "object",
+      "properties": {
+        "retailOrderId": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/ordermanagementIndicativeStatus"
+        },
+        "accountNumber": {
+          "type": "string"
+        },
+        "assignee": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string",
+          "title": "TODO: Will be an actual object, structure TBD"
+        },
+        "lastUpdatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "services": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ordermanagementOrderServiceHeader"
+          }
+        },
+        "broadbandPackageName": {
+          "type": "string",
+          "title": "Human-readable, first broadband-service in order (e.g. not\nResidentialLineRental)"
+        },
+        "snoozedUntil": {
+          "type": "string",
+          "format": "date-time",
+          "title": "If set then retail order is snoozed"
+        },
+        "customerName": {
+          "type": "string",
+          "title": "use contact_details.name instead"
+        },
+        "address": {
+          "$ref": "#/definitions/fixed_line_entitiesAddress"
+        },
+        "lastUpdatedBy": {
+          "type": "string"
+        },
+        "contactDetails": {
+          "$ref": "#/definitions/fixed_line_entitiesContactDetails"
+        }
+      },
+      "title": "This is a RetailOrder"
+    },
+    "ordermanagementOrdersV2": {
+      "type": "object",
+      "properties": {
+        "pagination": {
+          "$ref": "#/definitions/fixed_line_entitiesPagination"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ordermanagementOrderV2"
+          }
+        }
+      }
+    },
+    "ordermanagementProvisioningStateV2": {
+      "type": "object",
+      "properties": {
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "exceptions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/exceptionsOrderExceptionState"
+          }
+        },
+        "orderState": {
+          "$ref": "#/definitions/wholesale_order_stateWholesaleOrder"
+        }
+      }
+    },
+    "ordermanagementRetailOrderReport": {
+      "type": "object",
+      "properties": {
+        "file": {
+          "$ref": "#/definitions/filesFile"
+        }
+      },
+      "description": "GQL gen tries to create a `filesFile` which doesn't exit,\nas file.File becomes `FileTransfer` in GQL.\nTherefore, don't GQL gen this file.File."
+    },
+    "ordermanagementSubmitSwitchOrderRequest": {
+      "type": "object",
+      "properties": {
+        "serviceId": {
+          "type": "string"
+        },
+        "switchOrderReference": {
+          "type": "string"
+        },
+        "retailOrderId": {
+          "type": "string"
+        }
+      }
+    },
+    "ordermanagementSwitchingStateV2": {
+      "type": "object",
+      "properties": {
+        "lastUpdatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "switchState": {
+          "$ref": "#/definitions/switchingSwitchState"
+        },
+        "exceptions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/exceptionsOrderExceptionState"
+          }
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+        }
+      },
+      "additionalProperties": {},
+      "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(\u0026foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := \u0026pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := \u0026pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": \u003cstring\u003e,\n      \"lastName\": \u003cstring\u003e\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    },
+    "switchingOutstandingRequest": {
+      "type": "object",
+      "properties": {
+        "requestedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "messageClass": {
+          "type": "string"
+        },
+        "correlationId": {
+          "type": "string"
+        }
+      }
+    },
+    "switchingRequestedServiceActions": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/switchingRequestedServiceActionsAction"
+        },
+        "serviceType": {
+          "$ref": "#/definitions/switchingRequestedServiceActionsServiceType"
+        },
+        "identifier": {
+          "type": "string"
+        }
+      }
+    },
+    "switchingRequestedServiceActionsAction": {
+      "type": "string",
+      "enum": ["UNKNOWN_ACTION", "CEASE", "PORT", "IDENTIFY"],
+      "default": "UNKNOWN_ACTION"
+    },
+    "switchingRequestedServiceActionsServiceType": {
+      "type": "string",
+      "enum": ["UNKNOWN_TYPE", "IAS", "NBICS"],
+      "default": "UNKNOWN_TYPE"
+    },
+    "switchingServiceActions": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/switchingServiceActionsAction"
+        },
+        "serviceType": {
+          "$ref": "#/definitions/switchingServiceActionsServiceType"
+        },
+        "identifiers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "switchingServiceActionsAction": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN_ACTION",
+        "SERVICE_FOUND",
+        "SERVICE_NOT_FOUND",
+        "FORCED_CEASE",
+        "OPTION_TO_RETAIN",
+        "OPTION_TO_CEASE",
+        "SERVICE_WITH_ANOTHER_RCP",
+        "SERVICE_WITH_ANOTHER_CUSTOMER"
+      ],
+      "default": "UNKNOWN_ACTION"
+    },
+    "switchingServiceActionsServiceType": {
+      "type": "string",
+      "enum": ["UNKNOWN_TYPE", "IAS", "NBICS"],
+      "default": "UNKNOWN_TYPE"
+    },
+    "switchingSwitchState": {
+      "type": "object",
+      "properties": {
+        "switchOrderReference": {
+          "type": "string"
+        },
+        "provider": {
+          "type": "string",
+          "title": "The provider of the SOR; the LP"
+        },
+        "clientProvider": {
+          "type": "string",
+          "title": "The claimant of the SOR; the GP"
+        },
+        "requestedServiceActions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/switchingRequestedServiceActions"
+          }
+        },
+        "serviceActions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/switchingServiceActions"
+          }
+        },
+        "outstandingResponseForMessageClass": {
+          "type": "string",
+          "description": "deprecated; use `outstanding_requests` instead."
+        },
+        "latestCorrelationToken": {
+          "type": "string"
+        },
+        "latestRequestFailed": {
+          "type": "boolean"
+        },
+        "expectedCompletionDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "claimedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "cancelledAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "$ref": "#/definitions/switchingSwitchStateStatus"
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "outstandingRequests": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/switchingOutstandingRequest"
+          },
+          "description": "Requests we have sent which have not yet had a confirmation / failure\nas a response to them."
+        }
+      }
+    },
+    "switchingSwitchStateStatus": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "CANCELLED",
+        "EXCEPTION",
+        "AWAITING_ACTION",
+        "PENDING",
+        "PROGRESSING",
+        "COMPLETED"
+      ],
+      "default": "UNKNOWN"
+    },
+    "wholesale_order_stateAppointment": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "timeSlot": {
+          "$ref": "#/definitions/fixed_line_eventsAppointmentSlot"
+        },
+        "classification": {
+          "$ref": "#/definitions/fixed_line_eventsAppointmentClassification"
+        }
+      }
+    },
+    "wholesale_order_stateWholesaleOrder": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/definitions/WholesaleOrderState"
+        },
+        "networkType": {
+          "$ref": "#/definitions/fixed_line_entitiesNetworkType"
+        },
+        "appointment": {
+          "$ref": "#/definitions/wholesale_order_stateAppointment"
+        },
+        "requestedCompletionDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expectedCompletionDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "industryReference": {
+          "$ref": "#/definitions/fixed_line_entitiesIndustryReference"
+        },
+        "address": {
+          "$ref": "#/definitions/fixed_line_entitiesAddress"
+        },
+        "kci1Date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "kci2Date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "kci3Date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "retailOrderId": {
+          "type": "string"
+        },
+        "serviceId": {
+          "type": "string"
+        },
+        "productId": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
