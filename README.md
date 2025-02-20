@@ -1,107 +1,51 @@
 # Swagger UI
 
-`go get github.com/utilitywarehouse/swaggerui`
+ `go get github.com/utilitywarehouse/swaggerui`
 
-swaggerui returns a handler to serve a Swagger API typically used in conjunction with the grpc-gateway
+A wrapper around https://github.com/swagger-api/swagger-ui which is served a static file from a Go API. The swagger UI will be available on `<YOUR_DOMAIN>/swagger-ui/` , and will look for the `swagger.json` at `<YOUR_DOMAIN>/swagger.json` . This allows you to pass in an auth token, which will be necessary to hit many endpoints. You can get your okta token by running
 
-### Updating the UI to the latest version
-simples `make update`. This will find and download the latest tagged release of swagger UI, convert the static assets 
-to a binary file and clean up after itself.
-
-### swagger.json location
-you can specify the potential locations of swagger files by passing them to `SwaggerFile`, it will pick the first available
-location!. Passing no locations will default to the locations of `YOUR_BINARY_LOCATION/swagger.json` then `/tmp/swagger.json`.
-
-***Please note***
-If you specify locations to `SwaggerFile` and it fails to locate a valid file the method will panic!
-
-### Example usage
-
-##### Overriding the default swagger.json location
-
-```go
-func initialiseSwaggerAPI(ctx context.Context, restPort, grpcPort, maxMessageSize *int, swaggerFileLocation *string) *http.Server {
-	m := http.NewServeMux()
-
-	gwmux := runtime.NewServeMux(runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{
-		MarshalOptions: protojson.MarshalOptions{
-			UseProtoNames:   true,
-			EmitUnpopulated: true,
-		},
-		UnmarshalOptions: protojson.UnmarshalOptions{},
-	}))
-
-	m.Handle("/", gwmux)
-	m.Handle("/swagger-ui/", http.stripPrefix("/swagger-ui/", swaggerui.SwaggerUI()))
-	m.Handle("/swagger.json", swaggerui.SwaggerFile(*swaggerFileLocation))
-
-	dialOpts := []grpc.DialOption{
-		grpc.WithInsecure(),
-		grpc.WithDefaultCallOptions(
-			grpc.MaxCallRecvMsgSize(*maxMessageSize*1024*1024),
-			grpc.MaxCallSendMsgSize(*maxMessageSize*1024*1024),
-		),
-		grpc.WithStreamInterceptor(grpc_middleware.ChainStreamClient(
-			grpc_opentracing.StreamClientInterceptor(grpc_opentracing.WithTracer(opentracing.GlobalTracer())),
-		)),
-		grpc.WithUnaryInterceptor(grpc_middleware.ChainUnaryClient(
-			grpc_opentracing.UnaryClientInterceptor(grpc_opentracing.WithTracer(opentracing.GlobalTracer())),
-		)),
-	}
-
-	if rErr := my_gateway.RegisterServiceHandlerFromEndpoint(ctx, gwmux, fmt.Sprintf("localhost:%d", *grpcPort), dialOpts); rErr != nil {
-		log.WithError(rErr).Panic("unable to register gateway handler")
-	}
-
-	gwServer := &http.Server{
-		Addr:    fmt.Sprintf(":%d", *restPort),
-		Handler: m,
-	}
-
-	return gwServer
-}
+```
+uw iam login --copy --print --format json --quiet
 ```
 
-##### using the default swagger file locations
-```go
-func initialiseSwaggerAPI(ctx context.Context, restPort, grpcPort, maxMessageSize *int) *http.Server {
+with the UW CLI (https://github.com/utilitywarehouse/uw-cli).
+
+## Usage
+
+This is intended to be used alongside a Go API as following.
+
+```
+	import "github.com/utilitywarehouse/swaggerui"
+
+	
 	m := http.NewServeMux()
 
-	gwmux := runtime.NewServeMux(runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{
-		MarshalOptions: protojson.MarshalOptions{
-			UseProtoNames:   true,
-			EmitUnpopulated: true,
-		},
-		UnmarshalOptions: protojson.UnmarshalOptions{},
+	swaggerFilePath := "swagger/swagger.json"
+
+	m.Handle("/swagger-ui/", http.StripPrefix("/swagger-ui/", swaggerui.SwaggerUI()))
+	m.Handle("/swagger.json", http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+		http.ServeFileFS(writer, request, swaggerFS, swaggerFilePath)
 	}))
 
-	m.Handle("/", gwmux)
-	m.Handle("/swagger-ui/", http.stripPrefix("/swagger-ui/", swaggerui.SwaggerUI()))
-	m.Handle("/swagger.json", swaggerui.SwaggerFile())
-
-	dialOpts := []grpc.DialOption{
-		grpc.WithInsecure(),
-		grpc.WithDefaultCallOptions(
-			grpc.MaxCallRecvMsgSize(*maxMessageSize*1024*1024),
-			grpc.MaxCallSendMsgSize(*maxMessageSize*1024*1024),
-		),
-		grpc.WithStreamInterceptor(grpc_middleware.ChainStreamClient(
-			grpc_opentracing.StreamClientInterceptor(grpc_opentracing.WithTracer(opentracing.GlobalTracer())),
-		)),
-		grpc.WithUnaryInterceptor(grpc_middleware.ChainUnaryClient(
-			grpc_opentracing.UnaryClientInterceptor(grpc_opentracing.WithTracer(opentracing.GlobalTracer())),
-		)),
+	svr := &http.Server{
+		Addr:              "localhost:8080",
+		Handler:           m,
+		ReadHeaderTimeout: 5 * time.Second,
 	}
 
-	if rErr := my_gateway.RegisterServiceHandlerFromEndpoint(ctx, gwmux, fmt.Sprintf("localhost:%d", *grpcPort), dialOpts); rErr != nil {
-		log.WithError(rErr).Panic("unable to register gateway handler")
+	if err := svr.ListenAndServe(); err != nil {
+		panic(err)
 	}
-
-	gwServer := &http.Server{
-		Addr:    fmt.Sprintf(":%d", *restPort),
-		Handler: m,
-	}
-
-	return gwServer
-}
 ```
+
+## Development
+
+`make run` at root level to build the UI and run a go server at `localhost:8080/swagger-ui` ; replace the `cmd/swagger/swagger.json` with the swagger json of your choice for testing (note - it won't actually be able to call those endpoints).
+
+`cmd/swagger` contains a sample swagger file for testing purposes.
+
+`cmd/main.go` will spin up a go server on localhost:8080 which can be used for testing out changed to the swagger ui.
+
+Make sure to run `make build-ui` before pushing up if you're making changes to the UI; this is intended to work by serving the static files made from this UI, rather than the UI itself being run in a docker container or something like that.
+
+An extension of this might be to instead spin this up as a sidecar, rather than integrating the swagger UI directly with the services. That'd be neater, however is more work than this.
