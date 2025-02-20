@@ -14,6 +14,7 @@ function App() {
 
   return (
     <div>
+      {/* Very barebones, but it works :shrug: */}
       <h2>Okta token:</h2>
       <input
         type="text"
