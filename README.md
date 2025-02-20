@@ -40,8 +40,12 @@ This is intended to be used alongside a Go API as following.
 
 ## Development
 
+`make run` at root level to build the UI and run a go server at `localhost:8080/swagger-ui` ; replace the `cmd/swagger/swagger.json` with the swagger json of your choice for testing (note - it won't actually be able to call those endpoints).
+
 `cmd/swagger` contains a sample swagger file for testing purposes.
 
 `cmd/main.go` will spin up a go server on localhost:8080 which can be used for testing out changed to the swagger ui.
 
 Make sure to run `make build-ui` before pushing up if you're making changes to the UI; this is intended to work by serving the static files made from this UI, rather than the UI itself being run in a docker container or something like that.
+
+An extension of this might be to instead spin this up as a sidecar, rather than integrating the swagger UI directly with the services. That'd be neater, however is more work than this.

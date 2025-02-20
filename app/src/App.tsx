@@ -27,7 +27,7 @@ function App() {
         requestInterceptor={(req) => ({
           ...req,
           headers: {
-            Authorization: `Bearer ${tokenRef.current}`,
+            Authorization: `Bearer ${tokenRef.current.trim()}`,
           },
         })}
         url={`${window.location.origin}/swagger.json`}
