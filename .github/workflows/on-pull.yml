@@ -14,9 +14,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Preprocess wiki
-        run: |
-          sed -i 's/\/docs\/wiki\/.*\.\(svg\)/https:\/\/raw.githubusercontent.com\/utilitywarehouse\/swaggerui\/refs\/heads\/master&/g' $(grep -rl "/docs/wiki/[a-zA-Z0-9/-]*/.*\.\(svg\)" ./docs/wiki)
+      # - name: Preprocess wiki
+      #   run: |
+      #     sed -i 's/\/docs\/wiki\/.*\.\(svg\)/https:\/\/raw.githubusercontent.com\/utilitywarehouse\/swaggerui\/refs\/heads\/master&/g' $(grep -rl "/docs/wiki/[a-zA-Z0-9/-]*/.*\.\(svg\)" ./docs/wiki)
 
       - name: Push wiki changes
         uses: Andrew-Chen-Wang/github-wiki-action@v4
