@@ -14,9 +14,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Preprocess wiki
-        run: |
-          
+      # - name: Preprocess wiki
+      #   run: |
 
       - name: Push wiki changes
         uses: Andrew-Chen-Wang/github-wiki-action@v4
