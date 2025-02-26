@@ -1,0 +1,26 @@
+User: {
+  shape: person
+}
+
+User -> JTC: user joins UW
+JTC -> Ordering Platform: order passed to
+
+scenarios: {
+  context: {
+    Ordering Platform -> Broadband Ordering System: broadband line item
+    Broadband Ordering System -> PXC: order placed with industry
+  }
+
+  container: {
+    Broadband Ordering System: {
+      style: {
+        opacity: 0.4
+        fill: "#f4a261"
+      }
+      order-service -> order-management: order sent to
+      order-management -> pxc-apis: wholeasle order released
+    }
+    Ordering Platform -> Broadband Ordering System.order-service: broadband line item
+    Broadband Ordering System.pxc-apis -> PXC: placed with industry
+  }
+}
