@@ -43,4 +43,8 @@ jobs:
           git commit -m "${COMMIT_MESSAGE}"
       - name: Push new wiki changes
         run: |
+          git config user.email "github-actions@uw.systems"
+          git config user.name "WikiBot"
+          git config core.autocrlf input
+
           cd $GITHUB_WORKSPACE/docs/wiki && git push
