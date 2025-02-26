@@ -1,11 +1,9 @@
-# This is the header for Broadband Arch
+# header
 
-This is text underneath it
+Hello, world!
 
-## This is a subheader
+## subheader
 
-This is text under a subheader, below is a diagram
-
-thsi was added in code works
+This is a subheader
 
 ![diagram](./diagram.png)
