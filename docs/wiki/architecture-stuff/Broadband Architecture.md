@@ -8,4 +8,4 @@ This is text under a subheader, below is a diagram
 
 thsi was added in code works
 
-![arch diagram](./diagram.png)
+![arch diagram](/docs/wiki/architecture-stuff/diagram.png)
