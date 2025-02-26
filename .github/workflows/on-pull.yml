@@ -23,3 +23,20 @@ jobs:
           ls
           cd architecture-stuff
           ls
+
+      - name: Checkout wiki
+        uses: actions/checkout@v4
+        with:
+          repository: https://github.com/utilitywarehouse/swaggerui.wiki.git
+          path: ./tmp/wiki
+      
+      - name: Commit new wiki changes
+        run: |
+          export COMMIT_MESSAGE="new Wiki"
+          cd $GITHUB_WORKSPACE/docs/wiki
+          cp -r $$GITHUB_WORKSPACE/tmp/wiki/.git ./
+          git add .
+          git commit -m "${COMMIT_MESSAGE}"
+      - name: Push new wiki changes
+        run: |
+          cd $GITHUB_WORKSPACE/docs/wiki && git push
