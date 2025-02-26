@@ -1,50 +1,22 @@
-name: master
-permissions:
-  contents: write
+name: Publish wiki
 on:
   pull_request:
-    branches: ["master"]
-
+    branches: [master]
+    paths:
+      - docs/wiki/**
+      - .github/workflows/on-pull.yml
+permissions:
+  contents: write
 jobs:
-  pushwiki:
-    name: "Push Wiki"
+  publish-wiki:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up environment
-        env:
-          GH_AUTH_TOKEN: ${{ secrets.GH_AUTH_TOKEN }}
-        run: |
-          sudo apt update && sudo apt install -y build-essential; \
-
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      - name: list wiki dir
-        run: |
-          cd docs/wiki
-          ls
-          cd architecture-stuff
-          ls
-
-      - name: Checkout wiki
-        run: |
-          git clone https://github.com/utilitywarehouse/swaggerui.wiki.git $GITHUB_WORKSPACE/tmp/wiki
-
-      - name: Commit new wiki changes
-        run: |
-          export COMMIT_MESSAGE="new Wiki"
-          cd $GITHUB_WORKSPACE/docs/wiki
-          ls
-          cp -r $GITHUB_WORKSPACE/tmp/wiki/.git ./
-
-          git config --global user.email "github-actions@uw.systems"
-          git config --global user.name "WikiBot"
-          git config --global core.autocrlf input
-
-          git add .
-          git commit -m "${COMMIT_MESSAGE}"
-      - name: Push new wiki changes
-        run: |
-          cd $GITHUB_WORKSPACE/docs/wiki
-          ls
-          git push
+      - name: Push wiki changes
+        uses: Andrew-Chen-Wang/github-wiki-action@v4
+        with:
+          strategy: init
+          path: docs/wiki/
+          dry-run: true
