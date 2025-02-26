@@ -20,3 +20,4 @@ jobs:
           strategy: init
           path: docs/wiki/
           dry-run: false
+          preprocess: false
