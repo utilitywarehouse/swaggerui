@@ -6,4 +6,4 @@ This is text underneath it
 
 This is text under a subheader, below is a diagram
 
-![arch diagram](./diagram.svg)
+![arch diagram](./diagram.png)
