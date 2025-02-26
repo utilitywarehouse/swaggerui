@@ -19,4 +19,4 @@ jobs:
         with:
           strategy: init
           path: docs/wiki/
-          dry-run: true
+          dry-run: false
