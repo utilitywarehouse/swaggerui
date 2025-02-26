@@ -1,0 +1,25 @@
+name: main
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  pushwiki:
+    name: "Push Wiki"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up environment
+        env:
+          GH_AUTH_TOKEN: ${{ secrets.GH_AUTH_TOKEN }}
+        run: |
+          sudo apt update && sudo apt install -y build-essential; \
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: list wiki dir
+        run: |
+          cd docs/wiki
+          ls
+          cd architecture-stuff
+          ls
