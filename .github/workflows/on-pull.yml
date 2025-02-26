@@ -38,6 +38,7 @@ jobs:
           git config --global user.email "github-actions@uw.systems"
           git config --global user.name "WikiBot"
           git config --global core.autocrlf input
+          git config --global url."https://git@github.com/".insteadOf "https://github.com/"
 
           git add .
           git commit -m "${COMMIT_MESSAGE}"
