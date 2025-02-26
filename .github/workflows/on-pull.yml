@@ -35,16 +35,14 @@ jobs:
           ls
           cp -r $GITHUB_WORKSPACE/tmp/wiki/.git ./
 
-          git config user.email "github-actions@uw.systems"
-          git config user.name "WikiBot"
-          git config core.autocrlf input
+          git config --global user.email "github-actions@uw.systems"
+          git config --global user.name "WikiBot"
+          git config --global core.autocrlf input
 
           git add .
           git commit -m "${COMMIT_MESSAGE}"
       - name: Push new wiki changes
         run: |
-          git config user.email "github-actions@uw.systems"
-          git config user.name "WikiBot"
-          git config core.autocrlf input
-
-          cd $GITHUB_WORKSPACE/docs/wiki && git push
+          cd $GITHUB_WORKSPACE/docs/wiki
+          ls
+          git push
