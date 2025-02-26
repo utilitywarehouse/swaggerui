@@ -14,13 +14,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Preprocess wiki
-      #   run: |
-
+      # Would be done on merge to main instead,
+      # on PR here for testing.
       - name: Push wiki changes
         uses: Andrew-Chen-Wang/github-wiki-action@v4
         with:
           strategy: init
           path: docs/wiki/
           dry-run: false
-          preprocess: false
