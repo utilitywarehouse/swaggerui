@@ -1,7 +1,7 @@
 name: master
 on:
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
 
 jobs:
   pushwiki:
@@ -25,11 +25,9 @@ jobs:
           ls
 
       - name: Checkout wiki
-        uses: actions/checkout@v4
-        with:
-          repository: https://github.com/utilitywarehouse/swaggerui.wiki.git
-          path: ./tmp/wiki
-      
+        run: |
+          git clone https://github.com/utilitywarehouse/swaggerui.wiki.git $GITHUB_WORKSPACE/tmp/wiki
+
       - name: Commit new wiki changes
         run: |
           export COMMIT_MESSAGE="new Wiki"
