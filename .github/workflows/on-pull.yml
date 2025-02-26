@@ -34,6 +34,11 @@ jobs:
           cd $GITHUB_WORKSPACE/docs/wiki
           ls
           cp -r $GITHUB_WORKSPACE/tmp/wiki/.git ./
+
+          git config user.email "github-actions@uw.systems"
+          git config user.name "Deploybot"
+          git config core.autocrlf input
+
           git add .
           git commit -m "${COMMIT_MESSAGE}"
       # - name: Push new wiki changes
