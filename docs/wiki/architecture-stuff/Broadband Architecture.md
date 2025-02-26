@@ -6,4 +6,6 @@ This is text underneath it
 
 This is text under a subheader, below is a diagram
 
+thsi was added in code
+
 ![arch diagram](./diagram.png)
