@@ -2,9 +2,6 @@
 
 Here's a some text.
 
-## Diagrams
+## Domains
 
-Here's a diagram below:
-
-![alt-text](./images/tmp.svg)
-
+See ordering domain [here](./Ordering-Domain)
