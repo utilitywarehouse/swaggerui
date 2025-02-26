@@ -14,6 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Preprocess wiki
+        run: |
+          sed -i 's/\/docs\/wiki\/.*\.\(svg\)/foo/g' $(grep -rl "/docs/wiki/[a-zA-Z0-9/-]*/.*\.\(svg\)" ./docs/wiki)
+
       - name: Push wiki changes
         uses: Andrew-Chen-Wang/github-wiki-action@v4
         with:
