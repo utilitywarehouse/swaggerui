@@ -6,6 +6,4 @@ Hello, world!
 
 This is a subheader
 
-![A diagram](/docs/wiki/architecture-stuff/diagram.png)
-
-[Go Home](/docs/wiki/Home.md)
+![A diagram](/docs/wiki/images/diagram.png)
