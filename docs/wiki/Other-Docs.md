@@ -1,3 +1,3 @@
-# Other Docs
+# Some other doc
 
-Here's another doc somewhere
+This is some other doc which is not fleshed out

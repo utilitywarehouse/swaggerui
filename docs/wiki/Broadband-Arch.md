@@ -7,3 +7,4 @@ Here's a some text.
 Here's a diagram below:
 
 ![alt-text](./images/tmp.svg)
+
