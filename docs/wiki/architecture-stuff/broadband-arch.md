@@ -6,4 +6,6 @@ Hello, world!
 
 This is a subheader
 
-![diagram](./diagram.png)
+[[/docs/wiki/images/diagram.png]]
+
+![A diagram](../images/diagram.png)
