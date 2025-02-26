@@ -32,7 +32,7 @@ jobs:
         run: |
           export COMMIT_MESSAGE="new Wiki"
           cd $GITHUB_WORKSPACE/docs/wiki
-          cp -r $$GITHUB_WORKSPACE/tmp/wiki/.git ./
+          cp -r $GITHUB_WORKSPACE/tmp/wiki/.git ./
           git add .
           git commit -m "${COMMIT_MESSAGE}"
       - name: Push new wiki changes
