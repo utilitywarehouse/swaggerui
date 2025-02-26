@@ -1,0 +1,23 @@
+name: Publish wiki
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - docs/wiki/**
+      - .github/workflows/on-pull.yml
+permissions:
+  contents: write
+jobs:
+  publish-wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Push wiki changes
+        uses: Andrew-Chen-Wang/github-wiki-action@v4
+        with:
+          strategy: init
+          path: docs/wiki/
+          dry-run: false
+          preprocess: false
