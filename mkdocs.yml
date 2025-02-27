@@ -1,0 +1,3 @@
+site_name: SwaggerUI
+nav:
+  - About: about.md
