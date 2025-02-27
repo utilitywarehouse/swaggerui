@@ -1,3 +1,5 @@
-site_name: SwaggerUI
+site_name: swaggerui
+site_url: http://localhost:8000
+theme: material
 nav:
   - About: about.md
